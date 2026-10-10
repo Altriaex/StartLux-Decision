@@ -1,7 +1,7 @@
 <p align="center"><img src="media/hero.png" alt="StartLux-Decision: a probability for every option" width="100%"></p>
 
 <p align="center">
-  <a href="https://huggingface.co/collections/startlux-models/startlux-decision-6abba92b301b573fa154d493">Models on Hugging Face</a> ·
+  <a href="https://huggingface.co/collections/startlux-models/startlux-decision-v1-6abba92b301b573fa154d493">Models on Hugging Face</a> ·
   <a href="https://modelscope.cn/organization/StartLuxAI">Models on ModelScope</a> ·
   <a href="docs/results.md">Results</a> ·
   <a href="docs/inference.md">Inference</a> ·
@@ -21,27 +21,27 @@ for each option. Nothing is generated; the answer is read from the option letter
 question takes a few milliseconds and the probabilities can be used as confidence. Requests and responses use the
 TypeSafe `/v1/systemone` format, so clients written for Jev work unchanged. This repository has the inference code,
 the evaluation scripts, the results and the raw game logs. The weights are on Hugging Face, in the
-[StartLux-Decision collection](https://huggingface.co/collections/startlux-models/startlux-decision-6abba92b301b573fa154d493),
+[StartLux-Decision collection](https://huggingface.co/collections/startlux-models/startlux-decision-v1-6abba92b301b573fa154d493),
 and on ModelScope, under [StartLuxAI](https://modelscope.cn/organization/StartLuxAI).
 
 ## Demos
 
 <table align="center">
   <tr>
-    <td width="50%" align="center"><a href="media/computer_use_store_27b.mp4"><img src="media/computer_use_store_27b.gif" alt="StartLux-Decision-27B orders batteries in a web store"></a><br><sub>StartLux-Decision-27B finds the cheapest AA 8-pack with free delivery and orders it to the right address</sub></td>
-    <td width="50%" align="center"><a href="media/chess_27b_scotch_vs_jev.mp4"><img src="media/chess_27b_scotch_vs_jev.gif" alt="StartLux-Decision-27B plays chess against Jev 1.13"></a><br><sub>StartLux-Decision-27B, with White, checkmates Jev 1.13 on move 19 of a Scotch Game; neither side searches</sub></td>
+    <td width="50%" align="center"><a href="media/computer_use_store_27b.mp4"><img src="media/computer_use_store_27b.gif" alt="StartLux-Decision-v1-27B orders batteries in a web store"></a><br><sub>StartLux-Decision-v1-27B finds the cheapest AA 8-pack with free delivery and orders it to the right address</sub></td>
+    <td width="50%" align="center"><a href="media/chess_27b_scotch_vs_jev.mp4"><img src="media/chess_27b_scotch_vs_jev.gif" alt="StartLux-Decision-v1-27B plays chess against Jev 1.13"></a><br><sub>StartLux-Decision-v1-27B, with White, checkmates Jev 1.13 on move 19 of a Scotch Game; neither side searches</sub></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><a href="media/mario_1-1_27b.mp4"><img src="media/mario_1-1_27b.gif" alt="StartLux-Decision-27B plays Super Mario Bros."></a><br><sub>StartLux-Decision-27B clears World 1-1 of Super Mario Bros.</sub></td>
-    <td width="50%" align="center"><a href="media/sc2_hard_27b.mp4"><img src="media/sc2_hard_27b.gif" alt="StartLux-Decision-27B plays StarCraft II"></a><br><sub>StartLux-Decision-27B makes the strategic calls for a Terran bot and beats the built-in Hard AI</sub></td>
+    <td width="50%" align="center"><a href="media/mario_1-1_27b.mp4"><img src="media/mario_1-1_27b.gif" alt="StartLux-Decision-v1-27B plays Super Mario Bros."></a><br><sub>StartLux-Decision-v1-27B clears World 1-1 of Super Mario Bros.</sub></td>
+    <td width="50%" align="center"><a href="media/sc2_hard_27b.mp4"><img src="media/sc2_hard_27b.gif" alt="StartLux-Decision-v1-27B plays StarCraft II"></a><br><sub>StartLux-Decision-v1-27B makes the strategic calls for a Terran bot and beats the built-in Hard AI</sub></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><a href="media/doom_deathmatch_27b.mp4"><img src="media/doom_deathmatch_27b.gif" alt="StartLux-Decision-27B plays Doom"></a><br><sub>StartLux-Decision-27B plays a Doom deathmatch against four built-in bots</sub></td>
-    <td width="50%" align="center"><a href="media/jevball_27b.mp4"><img src="media/jevball_27b.gif" alt="StartLux-Decision-27B plays JevBall"></a><br><sub>StartLux-Decision-27B makes the decisions for a football team in real time</sub></td>
+    <td width="50%" align="center"><a href="media/doom_deathmatch_27b.mp4"><img src="media/doom_deathmatch_27b.gif" alt="StartLux-Decision-v1-27B plays Doom"></a><br><sub>StartLux-Decision-v1-27B plays a Doom deathmatch against four built-in bots</sub></td>
+    <td width="50%" align="center"><a href="media/jevball_27b.mp4"><img src="media/jevball_27b.gif" alt="StartLux-Decision-v1-27B plays JevBall"></a><br><sub>StartLux-Decision-v1-27B makes the decisions for a football team in real time</sub></td>
   </tr>
 </table>
 
-All six are real runs of StartLux-Decision-27B; click a preview for the video.
+All six are real runs of StartLux-Decision-v1-27B; click a preview for the video.
 
 **Computer use** (our own harness). A real Chrome window opens a small mock site, and every step is one request with two
 typed questions: which of the controls visible on the page to use next, and whether the task is done. The harness
@@ -50,11 +50,11 @@ suggestion list. The task was completed, and the harness checked the result agai
 the four likeliest controls and the rest in one row, so that block adds up to 100%; below it, set apart, is the
 probability that the task is done. The harness and the two sites are in [demos/computer_use](demos/computer_use).
 
-**Chess** (wondertwins/jev-benchmark). StartLux-Decision-27B plays Jev 1.13 through the harness at its default rich
+**Chess** (wondertwins/jev-benchmark). StartLux-Decision-v1-27B plays Jev 1.13 through the harness at its default rich
 level: every turn is one request with one choice question over all legal moves, given the board, the move history and
 the pieces in text. Both sides get the same request, neither searches, and code never overrides a move; Stockfish only
 draws the evaluation bar. This is one of the 256 games of the match under [Games](#games), from the position after the
-first four moves of a Scotch Game; over the 256 games StartLux-Decision-27B scores 58.4%. The match tools are in
+first four moves of a Scotch Game; over the 256 games StartLux-Decision-v1-27B scores 58.4%. The match tools are in
 [demos/chess](demos/chess).
 
 **Super Mario Bros.** (4esv/jev-mario). Every step is one request with one choice question over eleven moves. The
@@ -79,9 +79,9 @@ game's built-in policy.
 
 <p align="center"><img src="media/di_chart.png" alt="Decision Index 0.2.1: StartLux-Decision, Jev and other systems" width="100%"></p>
 
-StartLux-Decision-27B reaches 63.88 on Decision Index 0.2.1, StartLux-Decision-35B-A3B 61.55 and StartLux-Decision-9B 58.63,
+StartLux-Decision-v1-27B reaches 63.88 on Decision Index 0.2.1, StartLux-Decision-v1-35B-A3B 61.55 and StartLux-Decision-v1-9B 58.63,
 scored with the board's own kit on the full suite. The highest entry on the public board (2026-09-28) is Jev 1.13 at 57.91; our runs are not on the board.
-StartLux-Decision-27B scores higher than Jev on 31 of the 38 benchmarks in the index. Our training data includes the public
+StartLux-Decision-v1-27B scores higher than Jev on 31 of the 38 benchmarks in the index. Our training data includes the public
 train splits of 14 of them, marked † below; their test items were filtered out of it.
 
 Every cell below is on the index's own scale: the benchmark's metric, corrected for chance, so 0% is random guessing
@@ -89,7 +89,7 @@ and 100% is perfect. The index is a weighted mean of these cells, which is why t
 
 <div align="center">
 
-| | StartLux-Decision-27B | StartLux-Decision-35B-A3B | StartLux-Decision-9B | StartLux-Decision-4B | Jev 1.13 | Rune 26B-A4B | Decider chat 31B | AutoJev-27B |
+| | StartLux-Decision-v1-27B | StartLux-Decision-v1-35B-A3B | StartLux-Decision-v1-9B | StartLux-Decision-v1-4B | Jev 1.13 | Rune 26B-A4B | Decider chat 31B | AutoJev-27B |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Decision Index 0.2.1** | **63.88** | 61.55 | 58.63 | 52.75 | 57.91 | 57.44 | 57.33 | 56.40 |
 | **Knowledge & Reasoning** | 44.3 | 42.4 | 38.0 | 32.1 | **51.4** | 43.4 | 44.3 | 40.9 |
@@ -153,17 +153,17 @@ in the Intern-Decision bundle next to ours; a blank cell means the number is not
 
 | Model | JevBench public, of 231 | Intern avg | DI 0.2 / 0.2.1 | Latency, 3 questions |
 |:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-35B-A3B | **210** | **92.29** | 57.24 / 61.55 | 52.5 ms |
-| StartLux-Decision-27B | 208 | 91.82 | **59.54 / 63.88** | 102.3 ms |
-| StartLux-Decision-9B | 201 | 91.08 | 54.37 / 58.63 | 35.7 ms |
-| StartLux-Decision-4B | 204 | 91.17 | 48.38 / 52.75 | 26.0 ms |
+| StartLux-Decision-v1-35B-A3B | **210** | **92.29** | 57.24 / 61.55 | 52.5 ms |
+| StartLux-Decision-v1-27B | 208 | 91.82 | **59.54 / 63.88** | 102.3 ms |
+| StartLux-Decision-v1-9B | 201 | 91.08 | 54.37 / 58.63 | 35.7 ms |
+| StartLux-Decision-v1-4B | 204 | 91.17 | 48.38 / 52.75 | 26.0 ms |
 | Intern-Decision-4B | 201 | 90.02 | 35.90 / 37.81 | 44.2 ms ¹ |
 | JevK5 | 200 | 85.16 | 36.44 / 38.81 | |
 | Jev 1.13 | 199 | 88.74 | 51.67 / 57.91 | 64.0 ms ² |
-| StartLux-Decision-2B | 196 | 88.46 | 40.72 / 44.19 | 15.5 ms |
+| StartLux-Decision-v1-2B | 196 | 88.46 | 40.72 / 44.19 | 15.5 ms |
 | SemIf | 187 | 84.23 | 25.70 / 25.94 | |
 | Intern-Decision-2B | 180 | 84.68 | 19.49 / 19.38 | 33.3 ms ¹ |
-| StartLux-Decision-0.8B | 179 | 85.03 | 35.57 / 38.86 | **12.2 ms** |
+| StartLux-Decision-v1-0.8B | 179 | 85.03 | 35.57 / 38.86 | **12.2 ms** |
 | Intern-Decision-0.8B | 163 | 79.38 | 11.32 / 11.94 | 34.0 ms ¹ |
 | Laya | 130 | 57.77 | 5.51 / 6.04 | |
 
@@ -178,7 +178,7 @@ to end.
 
 ## Compared with Jev 1.13
 
-<p align="center"><img src="media/vs_jev.png" alt="StartLux-Decision-27B compared with Jev 1.13" width="100%"></p>
+<p align="center"><img src="media/vs_jev.png" alt="StartLux-Decision-v1-27B compared with Jev 1.13" width="100%"></p>
 
 ## Accuracy suites
 
@@ -186,7 +186,7 @@ to end.
 
 The Intern-Decision bundle has seven suites: the three public JevBench tiers, Typed Decisions, ToolACE, AG News and
 WildJailBreak. Its ToolACE items are drawn from the public ToolACE training set, which has no held-out split, so
-[docs/results.md](docs/results.md) also gives the average without it (StartLux-Decision-4B: 90.67, Intern-Decision-4B: 88.95).
+[docs/results.md](docs/results.md) also gives the average without it (StartLux-Decision-v1-4B: 90.67, Intern-Decision-4B: 88.95).
 JevBench public counts the correct answers on the 231 public items in the bundle. It is not the official JevBench
 score, which adds a sealed tier, speed and cost and is measured only by the maintainers.
 
@@ -194,13 +194,13 @@ score, which adds a sealed tier, speed and cost and is measured only by the main
 
 <p align="center"><img src="media/latency.png" alt="Latency on one H200" width="100%"></p>
 
-StartLux-Decision-35B-A3B, a mixture of experts with about 3B of its 35B parameters active for each token, answers the
+StartLux-Decision-v1-35B-A3B, a mixture of experts with about 3B of its 35B parameters active for each token, answers the
 same request in 52.5 ms, half the time of the 27B; its experts run as grouped matrix multiplications, so the CUDA graphs
 cover them too. It fits one 80 GB GPU (about 71 GiB at its peak).
 
 The fast linear-attention kernels (`flash-linear-attention`, `causal-conv1d`) are required; the server refuses to
 start on a GPU without them. All questions of a request run in one forward pass, and CUDA graphs remove most of the
-launch overhead for short requests: StartLux-Decision-4B takes 90.3 ms for the same request without them. Bulk evaluation goes through a batched path instead. Details in
+launch overhead for short requests: StartLux-Decision-v1-4B takes 90.3 ms for the same request without them. Bulk evaluation goes through a batched path instead. Details in
 [docs/inference.md](docs/inference.md).
 
 ## Images and long inputs
@@ -231,40 +231,40 @@ in the weights; `python -m startlux_decision.gguf_server` runs it in front of ll
 
 | File | Size | Same decision as the original | JevBench public, of 231 |
 |:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B, original weights | | | 177 (76.6%) |
-| [`StartLux-Decision-0.8B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-0.8B-BF16-GGUF) | 1.52 GB | 99.6% | 178 (77.1%) |
-| [`StartLux-Decision-0.8B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-0.8B-Q8_0-GGUF) | 0.81 GB | 100.0% | 177 (76.6%) |
-| [`StartLux-Decision-0.8B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-0.8B-Q4_K_M-GGUF) | 0.53 GB | 93.1% | 172 (74.5%) |
-| StartLux-Decision-2B, original weights | | | 195 (84.4%) |
-| [`StartLux-Decision-2B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-2B-BF16-GGUF) | 3.78 GB | 100.0% | 195 (84.4%) |
-| [`StartLux-Decision-2B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-2B-Q8_0-GGUF) | 2.01 GB | 99.1% | 193 (83.5%) |
-| [`StartLux-Decision-2B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-2B-Q4_K_M-GGUF) | 1.27 GB | 94.4% | 199 (86.1%) |
-| StartLux-Decision-4B, original weights | | | 204 (88.3%) |
-| [`StartLux-Decision-4B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-4B-BF16-GGUF) | 8.42 GB | 100.0% | 204 (88.3%) |
-| [`StartLux-Decision-4B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-4B-Q8_0-GGUF) | 4.48 GB | 100.0% | 204 (88.3%) |
-| [`StartLux-Decision-4B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-4B-Q4_K_M-GGUF) | 2.71 GB | 98.3% | 201 (87.0%) |
-| StartLux-Decision-9B, original weights | | | 200 (86.6%) |
-| [`StartLux-Decision-9B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-9B-BF16-GGUF) | 17.92 GB | 99.6% | 201 (87.0%) |
-| [`StartLux-Decision-9B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-9B-Q8_0-GGUF) | 9.53 GB | 100.0% | 200 (86.6%) |
-| [`StartLux-Decision-9B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-9B-Q4_K_M-GGUF) | 5.63 GB | 98.3% | 201 (87.0%) |
-| StartLux-Decision-27B, original weights | | | 209 (90.5%) |
-| [`StartLux-Decision-27B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-27B-BF16-GGUF) | 53.81 GB | 100.0% | 209 (90.5%) |
-| [`StartLux-Decision-27B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-27B-Q8_0-GGUF) | 28.60 GB | 100.0% | 209 (90.5%) |
-| [`StartLux-Decision-27B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-27B-Q4_K_M-GGUF) | 16.55 GB | 96.5% | 208 (90.0%) |
+| StartLux-Decision-v1-0.8B, original weights | | | 177 (76.6%) |
+| [`StartLux-Decision-0.8B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B-BF16-GGUF) | 1.52 GB | 99.6% | 178 (77.1%) |
+| [`StartLux-Decision-0.8B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B-Q8_0-GGUF) | 0.81 GB | 100.0% | 177 (76.6%) |
+| [`StartLux-Decision-0.8B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B-Q4_K_M-GGUF) | 0.53 GB | 93.1% | 172 (74.5%) |
+| StartLux-Decision-v1-2B, original weights | | | 195 (84.4%) |
+| [`StartLux-Decision-2B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B-BF16-GGUF) | 3.78 GB | 100.0% | 195 (84.4%) |
+| [`StartLux-Decision-2B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B-Q8_0-GGUF) | 2.01 GB | 99.1% | 193 (83.5%) |
+| [`StartLux-Decision-2B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B-Q4_K_M-GGUF) | 1.27 GB | 94.4% | 199 (86.1%) |
+| StartLux-Decision-v1-4B, original weights | | | 204 (88.3%) |
+| [`StartLux-Decision-4B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-BF16-GGUF) | 8.42 GB | 100.0% | 204 (88.3%) |
+| [`StartLux-Decision-4B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-Q8_0-GGUF) | 4.48 GB | 100.0% | 204 (88.3%) |
+| [`StartLux-Decision-4B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-Q4_K_M-GGUF) | 2.71 GB | 98.3% | 201 (87.0%) |
+| StartLux-Decision-v1-9B, original weights | | | 200 (86.6%) |
+| [`StartLux-Decision-9B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B-BF16-GGUF) | 17.92 GB | 99.6% | 201 (87.0%) |
+| [`StartLux-Decision-9B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B-Q8_0-GGUF) | 9.53 GB | 100.0% | 200 (86.6%) |
+| [`StartLux-Decision-9B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B-Q4_K_M-GGUF) | 5.63 GB | 98.3% | 201 (87.0%) |
+| StartLux-Decision-v1-27B, original weights | | | 209 (90.5%) |
+| [`StartLux-Decision-27B-BF16.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B-BF16-GGUF) | 53.81 GB | 100.0% | 209 (90.5%) |
+| [`StartLux-Decision-27B-Q8_0.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B-Q8_0-GGUF) | 28.60 GB | 100.0% | 209 (90.5%) |
+| [`StartLux-Decision-27B-Q4_K_M.gguf`](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B-Q4_K_M-GGUF) | 16.55 GB | 96.5% | 208 (90.0%) |
 
 </div>
 
 BF16 and Q8_0 give the original answer on 99 to 100% of the items. Q4_K_M keeps 96.5 to 98.3% from 4B up; at 0.8B and
 2B it changes more answers, so Q8_0 is the better choice there. The original rows are the same weights run through this
 repository's package on the same machine; they differ from the tables above by one or two items of bf16 rounding.
-StartLux-Decision-35B-A3B is not available as GGUF yet.
+StartLux-Decision-v1-35B-A3B is not available as GGUF yet.
 
 To run one, download its repository (the GGUF file plus the small files the decision server needs), then start
 llama.cpp and the server (for another precision, replace `Q8_0`):
 
 ```bash
-hf download startlux-models/StartLux-Decision-4B-Q8_0-GGUF --local-dir StartLux-Decision-4B-Q8_0-GGUF
-cd StartLux-Decision-4B-Q8_0-GGUF && pip install -r requirements.txt
+hf download startlux-models/StartLux-Decision-v1-4B-Q8_0-GGUF --local-dir StartLux-Decision-v1-4B-Q8_0-GGUF
+cd StartLux-Decision-v1-4B-Q8_0-GGUF && pip install -r requirements.txt
 llama-server -m StartLux-Decision-4B-Q8_0.gguf -ngl 99 -c 16384 --parallel 4 --port 8081 &
 python -m startlux_decision.gguf_server --model-dir . --llama http://127.0.0.1:8081 --port 8090
 ```
@@ -275,14 +275,14 @@ python -m startlux_decision.gguf_server --model-dir . --llama http://127.0.0.1:8
 
 <div align="center">
 
-| Game | Measure | StartLux-Decision-27B | Jev 1.13 | Other reference |
+| Game | Measure | StartLux-Decision-v1-27B | Jev 1.13 | Other reference |
 |:---:|:---:|:---:|:---:|:---:|
 | NPC addressee detection, clean text | lines with a wrong answer, of 75 (fewer is better) | 1 | 6 | name matching: 27 |
 | NPC addressee detection, misheard names | lines with a wrong answer, of 75 (fewer is better) | 5 | 12 | name matching: 29 |
 | NPC addressee detection, clean text | F1 over the yes/no answers | 0.990 | 0.962 | name matching: 0.820 |
 | Chess, against each other | points in 256 games at the rich level, no search | 149.5 | 106.5 | 64 wins, 171 draws, 21 losses |
 | Mate in one | puzzles solved, of 25 | 10 | 6 | a random legal move: 3% |
-| Dino Run | runs that reach the 300-obstacle cap, of 20 | 20 | 20 | StartLux-Decision-4B and 9B: 20 |
+| Dino Run | runs that reach the 300-obstacle cap, of 20 | 20 | 20 | StartLux-Decision-v1-4B and 9B: 20 |
 
 </div>
 
@@ -290,7 +290,7 @@ Jev's numbers are the ones its harness authors report, except Dino Run and the c
 through its API in the same harness as ours. The chess match is 256 games: 128 level openings (within 0.6 pawns by
 Stockfish), each played once with each colour, at the harness's default rich level. Games end by the rules or are
 adjudicated at ±300 centipawns after 160 plies; since neither side searches, most draws are fivefold repetitions.
-StartLux-Decision-27B scores 58.4%, +59 Elo (95% interval +37 to +82), and wins 64 of the 85 decisive games. With the
+StartLux-Decision-v1-27B scores 58.4%, +59 Elo (95% interval +37 to +82), and wins 64 of the 85 decisive games. With the
 harness's tactical hints, which give both sides the one-move consequences of every move, the two are even (48.6% and
 46.1% over 256 games each); all four conditions are in [docs/results.md](docs/results.md). The misheard-names variant is the same set
 of lines as a lower-case speech-to-text transcript in which names are misheard.
@@ -306,20 +306,20 @@ The weights are on Hugging Face, as the original checkpoints for this package an
 
 | Model | Original weights | GGUF Q8_0 (recommended) | GGUF Q4_K_M | GGUF BF16 |
 |:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | [1.8 GB](https://huggingface.co/startlux-models/StartLux-Decision-0.8B) | [0.81 GB](https://huggingface.co/startlux-models/StartLux-Decision-0.8B-Q8_0-GGUF) | [0.53 GB](https://huggingface.co/startlux-models/StartLux-Decision-0.8B-Q4_K_M-GGUF) | [1.52 GB](https://huggingface.co/startlux-models/StartLux-Decision-0.8B-BF16-GGUF) |
-| StartLux-Decision-2B | [4.6 GB](https://huggingface.co/startlux-models/StartLux-Decision-2B) | [2.01 GB](https://huggingface.co/startlux-models/StartLux-Decision-2B-Q8_0-GGUF) | [1.27 GB](https://huggingface.co/startlux-models/StartLux-Decision-2B-Q4_K_M-GGUF) | [3.78 GB](https://huggingface.co/startlux-models/StartLux-Decision-2B-BF16-GGUF) |
-| StartLux-Decision-4B | [9.3 GB](https://huggingface.co/startlux-models/StartLux-Decision-4B) | [4.48 GB](https://huggingface.co/startlux-models/StartLux-Decision-4B-Q8_0-GGUF) | [2.71 GB](https://huggingface.co/startlux-models/StartLux-Decision-4B-Q4_K_M-GGUF) | [8.42 GB](https://huggingface.co/startlux-models/StartLux-Decision-4B-BF16-GGUF) |
-| StartLux-Decision-9B | [19.4 GB](https://huggingface.co/startlux-models/StartLux-Decision-9B) | [9.53 GB](https://huggingface.co/startlux-models/StartLux-Decision-9B-Q8_0-GGUF) | [5.63 GB](https://huggingface.co/startlux-models/StartLux-Decision-9B-Q4_K_M-GGUF) | [17.92 GB](https://huggingface.co/startlux-models/StartLux-Decision-9B-BF16-GGUF) |
-| StartLux-Decision-27B | [55.6 GB](https://huggingface.co/startlux-models/StartLux-Decision-27B) | [28.60 GB](https://huggingface.co/startlux-models/StartLux-Decision-27B-Q8_0-GGUF) | [16.55 GB](https://huggingface.co/startlux-models/StartLux-Decision-27B-Q4_K_M-GGUF) | [53.81 GB](https://huggingface.co/startlux-models/StartLux-Decision-27B-BF16-GGUF) |
+| StartLux-Decision-v1-0.8B | [1.8 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B) | [0.81 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B-Q8_0-GGUF) | [0.53 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B-Q4_K_M-GGUF) | [1.52 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-0.8B-BF16-GGUF) |
+| StartLux-Decision-v1-2B | [4.6 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B) | [2.01 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B-Q8_0-GGUF) | [1.27 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B-Q4_K_M-GGUF) | [3.78 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-2B-BF16-GGUF) |
+| StartLux-Decision-v1-4B | [9.3 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B) | [4.48 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-Q8_0-GGUF) | [2.71 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-Q4_K_M-GGUF) | [8.42 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-4B-BF16-GGUF) |
+| StartLux-Decision-v1-9B | [19.4 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B) | [9.53 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B-Q8_0-GGUF) | [5.63 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B-Q4_K_M-GGUF) | [17.92 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-9B-BF16-GGUF) |
+| StartLux-Decision-v1-27B | [55.6 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B) | [28.60 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B-Q8_0-GGUF) | [16.55 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B-Q4_K_M-GGUF) | [53.81 GB](https://huggingface.co/startlux-models/StartLux-Decision-v1-27B-BF16-GGUF) |
 
 </div>
 
 ```bash
-hf download startlux-models/StartLux-Decision-4B --local-dir StartLux-Decision-4B
-# or, from ModelScope: modelscope download StartLuxAI/StartLux-Decision-4B --local-dir StartLux-Decision-4B
+hf download startlux-models/StartLux-Decision-v1-4B --local-dir StartLux-Decision-v1-4B
+# or, from ModelScope: modelscope download StartLuxAI/StartLux-Decision-4B --local-dir StartLux-Decision-v1-4B
 pip install -r requirements.txt
-python -m startlux_decision.check StartLux-Decision-4B          # must print "fast kernels: active" (on a Mac: MLX)
-python -m startlux_decision.server --model StartLux-Decision-4B --port 8090
+python -m startlux_decision.check StartLux-Decision-v1-4B          # must print "fast kernels: active" (on a Mac: MLX)
+python -m startlux_decision.server --model StartLux-Decision-v1-4B --port 8090
 ```
 
 On Apple Silicon the same commands run the model with MLX; add `--int8` on an M5 or later. See
@@ -345,7 +345,7 @@ Or in Python:
 ```python
 from startlux_decision import StartLuxDecision
 
-m = StartLuxDecision("StartLux-Decision-4B")
+m = StartLuxDecision("StartLux-Decision-v1-4B")
 answers, usage = m.decide(state, questions)          # one request
 many = m.decide_batch([(state, questions), ...])     # many requests, batched together
 ```

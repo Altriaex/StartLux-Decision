@@ -31,7 +31,7 @@ Keep 10 to 20% of your data aside as a dev set, and do not tune on anything you 
 ## Train
 
 ```bash
-python finetune/finetune_lora.py --model /path/to/StartLux-Decision-4B --train train.jsonl --dev dev.jsonl --out runs/mine
+python finetune/finetune_lora.py --model /path/to/StartLux-Decision-v1-4B --train train.jsonl --dev dev.jsonl --out runs/mine
 ```
 
 Each question is rendered exactly as the server renders it, and the loss is the cross-entropy between your target and
@@ -45,8 +45,8 @@ of up to 16,384 padded tokens and 4 micro-batches per optimizer step. The script
 training, after each epoch and at the end. Inputs are padded to a small set of lengths so the fast kernels are compiled
 once per length rather than once per batch.
 
-For a sense of speed: on one H200, StartLux-Decision-4B went through 6,000 short synthetic ticket questions (about one epoch,
-13 optimizer steps) in about three minutes, kernel compilation included. The script uses a single GPU; for StartLux-Decision-27B,
+For a sense of speed: on one H200, StartLux-Decision-v1-4B went through 6,000 short synthetic ticket questions (about one epoch,
+13 optimizer steps) in about three minutes, kernel compilation included. The script uses a single GPU; for StartLux-Decision-v1-27B,
 the bf16 weights alone take about 54 GB, so plan for an 80 GB card or larger.
 
 Before you ship the result, run your dev set and a sample of the other decisions you rely on through `eval/` with both

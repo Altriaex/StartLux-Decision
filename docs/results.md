@@ -9,7 +9,7 @@ The ToolACE items in the Intern-Decision bundle are drawn from the public ToolAC
 test split, so next to the usual seven-suite average we also give the average without ToolACE.
 
 The tables were produced with our internal evaluation code. To check that the code in this repository gives the same
-answers, we reran StartLux-Decision-4B end to end with it (same weights and temperatures): JevBench public 204 of 231 (same),
+answers, we reran StartLux-Decision-v1-4B end to end with it (same weights and temperatures): JevBench public 204 of 231 (same),
 Intern-Decision average 91.15 against 91.17 (two AG News and two WildJailBreak items out of 9,810 changed, which is bf16
 rounding between batch shapes), Typed Decisions accuracy 0.799 (same), pilot Brier 0.499 (same), Decision Index 48.42 /
 52.75 against 48.38 / 52.75. The latency numbers come from this repository's own server.
@@ -17,7 +17,7 @@ rounding between batch shapes), Typed Decisions accuracy 0.799 (same), pilot Bri
 The five models as published on Hugging Face were checked the same way, each folder run through all seven
 Intern-Decision suites with this repository's code. They answer 178, 194, 204, 201 and 209 of the 231 public JevBench
 items (0.8B to 27B) against 179, 196, 204, 201 and 208 in the tables below: a few borderline items flip between the
-two inference paths, in both directions. StartLux-Decision-35B-A3B, checked the same way, answers 208 against 210, with
+two inference paths, in both directions. StartLux-Decision-v1-35B-A3B, checked the same way, answers 208 against 210, with
 an Intern-Decision average of 92.00 against 92.29.
 
 ## Intern-Decision suites and JevBench public tiers
@@ -29,12 +29,12 @@ Accuracy in percent. Easy, Original and Hard are the 48, 72 and 111 public JevBe
 
 | Model | Easy | Original | Hard | Typed | ToolACE | AG News | WildJB | Average | Average without ToolACE |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 100.00 | 90.28 | 59.46 | 75.85 | 91.94 | 90.97 | 86.70 | **85.03** | 83.88 |
-| StartLux-Decision-2B | 100.00 | 94.44 | 72.07 | 77.95 | 93.23 | 89.43 | 92.13 | **88.46** | 87.67 |
-| StartLux-Decision-4B | 100.00 | 100.00 | 75.68 | 79.95 | 94.19 | 90.91 | 97.47 | **91.17** | 90.67 |
-| StartLux-Decision-9B | 100.00 | 97.22 | 74.77 | 81.45 | 94.84 | 91.97 | 97.33 | **91.08** | 90.46 |
-| StartLux-Decision-27B | 100.00 | 100.00 | 79.28 | 80.20 | 94.52 | 90.57 | 98.19 | **91.82** | 91.37 |
-| StartLux-Decision-35B-A3B | 100.00 | 98.61 | 81.98 | 81.30 | 95.48 | 91.00 | 97.65 | **92.29** | 91.76 |
+| StartLux-Decision-v1-0.8B | 100.00 | 90.28 | 59.46 | 75.85 | 91.94 | 90.97 | 86.70 | **85.03** | 83.88 |
+| StartLux-Decision-v1-2B | 100.00 | 94.44 | 72.07 | 77.95 | 93.23 | 89.43 | 92.13 | **88.46** | 87.67 |
+| StartLux-Decision-v1-4B | 100.00 | 100.00 | 75.68 | 79.95 | 94.19 | 90.91 | 97.47 | **91.17** | 90.67 |
+| StartLux-Decision-v1-9B | 100.00 | 97.22 | 74.77 | 81.45 | 94.84 | 91.97 | 97.33 | **91.08** | 90.46 |
+| StartLux-Decision-v1-27B | 100.00 | 100.00 | 79.28 | 80.20 | 94.52 | 90.57 | 98.19 | **91.82** | 91.37 |
+| StartLux-Decision-v1-35B-A3B | 100.00 | 98.61 | 81.98 | 81.30 | 95.48 | 91.00 | 97.65 | **92.29** | 91.76 |
 | Jev 1.13 | 100.00 | 98.61 | 72.07 | 73.35 | 91.29 | 89.57 | 96.29 | 88.74 | 88.31 |
 | Laya | 95.83 | 72.22 | 28.83 | 35.95 | 63.87 | 92.84 | 14.84 | 57.77 | 56.75 |
 | SemIf | 100.00 | 98.61 | 61.26 | 62.80 | 85.16 | 89.22 | 92.53 | 84.23 | 84.07 |
@@ -52,17 +52,17 @@ Counted in items (231 public JevBench items; other systems converted from the ta
 
 | System | Correct of 231 | Easy (48) | Original (72) | Hard (111) |
 |:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-35B-A3B | **210** | 48 | 71 | **91** |
-| StartLux-Decision-27B | 208 | 48 | 72 | 88 |
-| StartLux-Decision-4B | 204 | 48 | 72 | 84 |
+| StartLux-Decision-v1-35B-A3B | **210** | 48 | 71 | **91** |
+| StartLux-Decision-v1-27B | 208 | 48 | 72 | 88 |
+| StartLux-Decision-v1-4B | 204 | 48 | 72 | 84 |
 | Intern-Decision-4B | 201 | 48 | 71 | 82 |
-| StartLux-Decision-9B | 201 | 48 | 70 | 83 |
+| StartLux-Decision-v1-9B | 201 | 48 | 70 | 83 |
 | JevK5 | 200 | 48 | 70 | 82 |
 | Jev 1.13 | 199 | 48 | 71 | 80 |
-| StartLux-Decision-2B | 196 | 48 | 68 | 80 |
+| StartLux-Decision-v1-2B | 196 | 48 | 68 | 80 |
 | SemIf | 187 | 48 | 71 | 68 |
 | Intern-Decision-2B | 180 | 48 | 61 | 71 |
-| StartLux-Decision-0.8B | 179 | 48 | 65 | 66 |
+| StartLux-Decision-v1-0.8B | 179 | 48 | 65 | 66 |
 | Kev (size not stated) | 165 | 48 | 67 | 50 |
 | Intern-Decision-0.8B | 163 | 47 | 58 | 58 |
 | Laya | 130 | 46 | 52 | 32 |
@@ -83,12 +83,12 @@ rows are from the Intern-Decision README; it reports the pilot only for Jev and 
 
 | Model | JevBench hard Brier | JevBench hard ECE | Pilot Brier | Pilot ECE |
 |:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 0.524 | 0.124 | 0.519 | 0.051 |
-| StartLux-Decision-2B | 0.394 | 0.081 | 0.515 | 0.060 |
-| StartLux-Decision-4B | 0.375 | 0.104 | 0.499 | 0.059 |
-| StartLux-Decision-9B | 0.355 | 0.056 | 0.477 | 0.038 |
-| StartLux-Decision-27B | **0.265** | 0.054 | 0.478 | 0.064 |
-| StartLux-Decision-35B-A3B | 0.280 | **0.039** | 0.502 | 0.061 |
+| StartLux-Decision-v1-0.8B | 0.524 | 0.124 | 0.519 | 0.051 |
+| StartLux-Decision-v1-2B | 0.394 | 0.081 | 0.515 | 0.060 |
+| StartLux-Decision-v1-4B | 0.375 | 0.104 | 0.499 | 0.059 |
+| StartLux-Decision-v1-9B | 0.355 | 0.056 | 0.477 | 0.038 |
+| StartLux-Decision-v1-27B | **0.265** | 0.054 | 0.478 | 0.064 |
+| StartLux-Decision-v1-35B-A3B | 0.280 | **0.039** | 0.502 | 0.061 |
 | Jev 1.13 | 0.358 | 0.095 | 0.595 | 0.130 |
 | Laya | 0.804 | 0.246 | | |
 | SemIf | 0.498 | 0.112 | | |
@@ -109,12 +109,12 @@ are from the dataset card (revision f7a2487e).
 
 | Model | Accuracy | Soft accuracy | Macro-F1 | KL | TV | Brier | Score MAE |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 0.758 | 0.602 | 0.639 | 0.148 | 0.204 | 0.079 | 0.295 |
-| StartLux-Decision-2B | 0.779 | 0.608 | 0.688 | 0.102 | 0.161 | 0.055 | 0.230 |
-| StartLux-Decision-4B | 0.799 | 0.615 | 0.709 | 0.080 | 0.136 | 0.044 | 0.203 |
-| StartLux-Decision-9B | **0.815** | 0.619 | 0.716 | 0.080 | 0.134 | 0.044 | 0.201 |
-| StartLux-Decision-27B | 0.802 | 0.616 | 0.701 | 0.079 | 0.128 | 0.042 | **0.194** |
-| StartLux-Decision-35B-A3B | 0.813 | **0.620** | **0.717** | **0.075** | **0.127** | **0.040** | 0.195 |
+| StartLux-Decision-v1-0.8B | 0.758 | 0.602 | 0.639 | 0.148 | 0.204 | 0.079 | 0.295 |
+| StartLux-Decision-v1-2B | 0.779 | 0.608 | 0.688 | 0.102 | 0.161 | 0.055 | 0.230 |
+| StartLux-Decision-v1-4B | 0.799 | 0.615 | 0.709 | 0.080 | 0.136 | 0.044 | 0.203 |
+| StartLux-Decision-v1-9B | **0.815** | 0.619 | 0.716 | 0.080 | 0.134 | 0.044 | 0.201 |
+| StartLux-Decision-v1-27B | 0.802 | 0.616 | 0.701 | 0.079 | 0.128 | 0.042 | **0.194** |
+| StartLux-Decision-v1-35B-A3B | 0.813 | **0.620** | **0.717** | **0.075** | **0.127** | **0.040** | 0.195 |
 | meraGPT Decider 1 (general) | 0.768 | 0.608 | 0.641 | 0.096 | 0.149 | 0.052 | 0.219 |
 | Jev 1.13.0 (general) | 0.727 | 0.580 | 0.613 | 1.442 | 0.251 | 0.148 | 0.391 |
 | Featherless Simple Jev (general) | 0.716 | | | 0.488 | | 0.176 | |
@@ -131,12 +131,12 @@ Full suite, scored with the 0.2.1 kit under both editions. The area columns are 
 
 | Model | DI 0.2 | DI 0.2.1 | Knowledge | Language | Retrieval & classification | Tools | Arts & taste |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 35.57 | **38.86** | 20.4 | 48.1 | 52.5 | 48.0 | 18.7 |
-| StartLux-Decision-2B | 40.72 | **44.19** | 25.3 | 52.9 | 52.9 | 59.5 | 25.0 |
-| StartLux-Decision-4B | 48.38 | **52.75** | 32.1 | 63.9 | 56.7 | 72.3 | 33.7 |
-| StartLux-Decision-9B | 54.37 | **58.63** | 38.0 | 71.3 | 64.1 | 73.2 | 41.8 |
-| StartLux-Decision-27B | 59.54 | **63.88** | 44.3 | 74.5 | 66.8 | 82.2 | 47.9 |
-| StartLux-Decision-35B-A3B | 57.24 | **61.55** | 42.4 | 73.6 | 65.8 | 76.2 | 44.7 |
+| StartLux-Decision-v1-0.8B | 35.57 | **38.86** | 20.4 | 48.1 | 52.5 | 48.0 | 18.7 |
+| StartLux-Decision-v1-2B | 40.72 | **44.19** | 25.3 | 52.9 | 52.9 | 59.5 | 25.0 |
+| StartLux-Decision-v1-4B | 48.38 | **52.75** | 32.1 | 63.9 | 56.7 | 72.3 | 33.7 |
+| StartLux-Decision-v1-9B | 54.37 | **58.63** | 38.0 | 71.3 | 64.1 | 73.2 | 41.8 |
+| StartLux-Decision-v1-27B | 59.54 | **63.88** | 44.3 | 74.5 | 66.8 | 82.2 | 47.9 |
+| StartLux-Decision-v1-35B-A3B | 57.24 | **61.55** | 42.4 | 73.6 | 65.8 | 76.2 | 44.7 |
 
 </div>
 
@@ -170,7 +170,7 @@ highest on the 0.2.1 board.
 ![Decision Index 0.2.1](../media/di_chart.png)
 
 Per benchmark, native metric times coverage in percent (0.2.1 kit; the best value in each row is bold, ★ marks the
-benchmarks weighted 1.2). StartLux-Decision-27B is above Jev on 31 of the 38 benchmarks in the index. † marks the 14 benchmarks
+benchmarks weighted 1.2). StartLux-Decision-v1-27B is above Jev on 31 of the 38 benchmarks in the index. † marks the 14 benchmarks
 whose public train split is part of our training data; their test items were filtered out of it. The same numbers are in
 [results/decision_index_benchmarks.csv](../results/decision_index_benchmarks.csv).
 
@@ -225,8 +225,8 @@ whose public train split is part of our training data; their test items were fil
 
 Latency and FP8 numbers are in [inference.md](inference.md). In short, with one request at a time over HTTP on one
 H200, a request with one choice, one yes/no and one score field, answered in one forward pass, takes 12.2 ms on
-StartLux-Decision-0.8B, 26.0 ms on StartLux-Decision-4B, 52.5 ms on StartLux-Decision-35B-A3B and 102.3 ms on
-StartLux-Decision-27B. Jev 1.13 spends 64.0 ms of server time on
+StartLux-Decision-v1-0.8B, 26.0 ms on StartLux-Decision-v1-4B, 52.5 ms on StartLux-Decision-v1-35B-A3B and 102.3 ms on
+StartLux-Decision-v1-27B. Jev 1.13 spends 64.0 ms of server time on
 the same request.
 
 ![Latency by model size on one H200](../media/latency.png)
@@ -246,11 +246,11 @@ punctuation, and on the same with misheard names.
 
 | Model | Clean: F1 / exact set | Speech-to-text | Misheard names |
 |:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 0.817 / 0.760 | 0.800 / 0.667 | 0.684 / 0.547 |
-| StartLux-Decision-2B | 0.795 / 0.747 | 0.776 / 0.733 | 0.712 / 0.653 |
-| StartLux-Decision-4B | 0.813 / 0.800 | 0.724 / 0.653 | 0.694 / 0.613 |
-| StartLux-Decision-9B | 0.951 / 0.893 | 0.897 / 0.773 | 0.871 / 0.747 |
-| StartLux-Decision-27B | **0.990 / 0.987** | **0.973 / 0.933** | **0.973 / 0.933** |
+| StartLux-Decision-v1-0.8B | 0.817 / 0.760 | 0.800 / 0.667 | 0.684 / 0.547 |
+| StartLux-Decision-v1-2B | 0.795 / 0.747 | 0.776 / 0.733 | 0.712 / 0.653 |
+| StartLux-Decision-v1-4B | 0.813 / 0.800 | 0.724 / 0.653 | 0.694 / 0.613 |
+| StartLux-Decision-v1-9B | 0.951 / 0.893 | 0.897 / 0.773 | 0.871 / 0.747 |
+| StartLux-Decision-v1-27B | **0.990 / 0.987** | **0.973 / 0.933** | **0.973 / 0.933** |
 | Jev 1.13 | 0.962 / 0.92 | 0.944 / 0.88 | 0.927 / 0.84 |
 | fuzzy name-matching heuristic | 0.820 / 0.64 | 0.820 / 0.64 | 0.786 / 0.61 |
 
@@ -266,11 +266,11 @@ marked as such.
 
 | Model | Rich: centipawn loss | best move | Tactical: centipawn loss | best move | Mate in one |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 282 | 7% | 112 | 23% | 2 of 25 |
-| StartLux-Decision-2B | 186 | 13% | 135 | 13% | 2 of 25 |
-| StartLux-Decision-4B | 159 | 17% | 94 | 27% | 4 of 25 |
-| StartLux-Decision-9B | 253 | 10% | 93 | 23% | 5 of 25 |
-| StartLux-Decision-27B | **108** | 23% | 107 | 27% | **10 of 25** |
+| StartLux-Decision-v1-0.8B | 282 | 7% | 112 | 23% | 2 of 25 |
+| StartLux-Decision-v1-2B | 186 | 13% | 135 | 13% | 2 of 25 |
+| StartLux-Decision-v1-4B | 159 | 17% | 94 | 27% | 4 of 25 |
+| StartLux-Decision-v1-9B | 253 | 10% | 93 | 23% | 5 of 25 |
+| StartLux-Decision-v1-27B | **108** | 23% | 107 | 27% | **10 of 25** |
 | Jev 1.13 | 144 | **27%** | **90** | **37%** | 6 of 25 |
 
 </div>
@@ -282,14 +282,14 @@ Stockfish UCI_Elo 1320), four games against each of seven opponents with alterna
 
 | Model | Score | Performance rating | 80% bootstrap interval |
 |:---:|:---:|:---:|:---:|
-| StartLux-Decision-4B | 19.5 / 28 | 886 | 782 to 1018 |
-| StartLux-Decision-9B | 20 / 28 | 928 | 765 to 1102 |
-| StartLux-Decision-27B | 25 / 28 | **1348** | 1187 to 1533 |
+| StartLux-Decision-v1-4B | 19.5 / 28 | 886 | 782 to 1018 |
+| StartLux-Decision-v1-9B | 20 / 28 | 928 | 765 to 1102 |
+| StartLux-Decision-v1-27B | 25 / 28 | **1348** | 1187 to 1533 |
 | Jev 1.13 (harness README, 11 games) | 9 / 11 | 968 | 879 to 1412 |
 
 </div>
 
-Against Stockfish at skill 0 (depth 1, rated 1166 on this ladder) StartLux-Decision-27B won three games and drew one; against
+Against Stockfish at skill 0 (depth 1, rated 1166 on this ladder) StartLux-Decision-v1-27B won three games and drew one; against
 Stockfish limited to 1320 Elo it scored three of four. Games that reach the 160-ply cap are adjudicated at ±300
 centipawns, as the ladder does for every player.
 
@@ -300,7 +300,7 @@ against each with alternating colours.
 
 | Model | Score | Performance rating | 80% bootstrap interval |
 |:---:|:---:|:---:|:---:|
-| StartLux-Decision-27B | 30 / 56 | **585** | 511 to 651 |
+| StartLux-Decision-v1-27B | 30 / 56 | **585** | 511 to 651 |
 | Jev 1.13 | 28 / 56 | 533 | 466 to 605 |
 
 </div>
@@ -318,7 +318,7 @@ after 160 plies. The Elo intervals are 95% bootstrap intervals that resample sta
 
 <div align="center">
 
-| Level | Starts | Games | StartLux-Decision-27B | Wins, draws, losses | Elo difference | Checkmates for / against | Mean centipawn loss, ours / Jev |
+| Level | Starts | Games | StartLux-Decision-v1-27B | Wins, draws, losses | Elo difference | Checkmates for / against | Mean centipawn loss, ours / Jev |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | rich | book openings | 256 | **58.4%** | 64, 171, 21 | **+59** (+37 to +82) | 64 / 20 | 161 / 173 |
 | rich | Chess960 | 256 | 53.7% | 44, 187, 25 | +26 (+4 to +48) | 44 / 25 | 164 / 178 |
@@ -328,7 +328,7 @@ after 160 plies. The Elo intervals are 95% bootstrap intervals that resample sta
 </div>
 
 At the rich level the request does not say what a move wins or loses, and with no search both sides drift into
-repeating a position: about seven games in ten end in a fivefold repetition, and StartLux-Decision-27B wins more of the
+repeating a position: about seven games in ten end in a fivefold repetition, and StartLux-Decision-v1-27B wins more of the
 rest. With the tactical facts the games are decisive (160 and 140 of the 256 reach the ply cap and are adjudicated)
 and the two are even. Jev answered as jev-1.13.0 in all 1,024 games, and no request failed. Mean centipawn loss caps
 each move at 1,000.
@@ -344,11 +344,11 @@ a wrong answer ends the run. 20 runs per model, capped at 300 obstacles.
 
 | Model | Obstacles cleared, mean of 20 | Runs reaching the cap |
 |:---:|:---:|:---:|
-| StartLux-Decision-0.8B | 0.6 | 0 |
-| StartLux-Decision-2B | 5.4 | 0 |
-| StartLux-Decision-4B | 300 | 20 |
-| StartLux-Decision-9B | 300 | 20 |
-| StartLux-Decision-27B | 300 | 20 |
+| StartLux-Decision-v1-0.8B | 0.6 | 0 |
+| StartLux-Decision-v1-2B | 5.4 | 0 |
+| StartLux-Decision-v1-4B | 300 | 20 |
+| StartLux-Decision-v1-9B | 300 | 20 |
+| StartLux-Decision-v1-27B | 300 | 20 |
 | Jev 1.13, our run through its API | 300 | 20 |
 
 </div>
@@ -372,7 +372,7 @@ The model never types: clicking a text box only opens its suggestion list.
 
 </div>
 
-StartLux-Decision-27B on one H200, 739 to 2,515 input tokens per request. The logs, with every option and probability, are in
+StartLux-Decision-v1-27B on one H200, 739 to 2,515 input tokens per request. The logs, with every option and probability, are in
 [results/computer_use](../results/computer_use).
 
 ## Recordings
@@ -383,7 +383,7 @@ StartLux-Decision-27B on one H200, 739 to 2,515 input tokens per request. The lo
   likeliest controls and the rest in one row (the block adds up to 100%), and below it the probability that the task
   is done, which is a separate question.
 - [media/chess_27b_scotch_vs_jev.gif](../media/chess_27b_scotch_vs_jev.gif) ([MP4](../media/chess_27b_scotch_vs_jev.mp4)):
-  game `rich_book_openings/m05_oursW` of the match: StartLux-Decision-27B, with White, against Jev 1.13 at the rich level
+  game `rich_book_openings/m05_oursW` of the match: StartLux-Decision-v1-27B, with White, against Jev 1.13 at the rich level
   after the first four moves of a Scotch Game; checkmate on move 19. Every move of both sides is a real answer; the
   panel shows each move with its probability, and Stockfish only draws the evaluation bar.
 - [media/mario_1-1_27b.gif](../media/mario_1-1_27b.gif) ([MP4](../media/mario_1-1_27b.mp4)),
@@ -392,8 +392,8 @@ StartLux-Decision-27B on one H200, 739 to 2,515 input tokens per request. The lo
   [media/jevball_27b.gif](../media/jevball_27b.gif) ([MP4](../media/jevball_27b.mp4)): the four game demos in the
   README, described there.
 - [media/npc_addressee_27b.gif](../media/npc_addressee_27b.gif) ([MP4](../media/npc_addressee_27b.mp4)): six of the
-  NPC utterances with StartLux-Decision-27B's probability for every character in earshot.
-- [media/typed_request_4b.gif](../media/typed_request_4b.gif) ([MP4](../media/typed_request_4b.mp4)): StartLux-Decision-4B's
+  NPC utterances with StartLux-Decision-v1-27B's probability for every character in earshot.
+- [media/typed_request_4b.gif](../media/typed_request_4b.gif) ([MP4](../media/typed_request_4b.mp4)): StartLux-Decision-v1-4B's
   answer to the quick-start request.
 
 ## Raw results
@@ -406,7 +406,7 @@ released model names and the harnesses' "jev_*" field names (which mean "the mod
 - `chess/match/<condition>/`: the 1,024 games against Jev 1.13 as PGN and as JSON (start, result, how the game ended,
   mean centipawn loss per side); `chess/match/summary.json` has the four conditions, the openings and the Chess960
   positions.
-- `chess/elo_ladder_rich/<player>/`: the rich-level ladder games of StartLux-Decision-27B and Jev 1.13, as JSON and
+- `chess/elo_ladder_rich/<player>/`: the rich-level ladder games of StartLux-Decision-v1-27B and Jev 1.13, as JSON and
   PGN, and the fitted ratings.
 - `npc_addressee/<model>.json`: every utterance in all three transcript variants, with probabilities per character.
 - `arcade/dino.json`: obstacles cleared in every Dino Run.
