@@ -4,7 +4,7 @@
 
 ```bash
 hf download startlux-models/StartLux-Decision-v1-4B --local-dir StartLux-Decision-v1-4B      # or any size, see below
-# or, from ModelScope: modelscope download StartLuxAI/StartLux-Decision-4B --local-dir StartLux-Decision-v1-4B
+# or, from ModelScope: modelscope download StartLuxAI/StartLux-Decision-v1-4B --local-dir StartLux-Decision-v1-4B
 pip install -r requirements.txt
 ```
 

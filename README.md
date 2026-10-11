@@ -316,7 +316,7 @@ The weights are on Hugging Face, as the original checkpoints for this package an
 
 ```bash
 hf download startlux-models/StartLux-Decision-v1-4B --local-dir StartLux-Decision-v1-4B
-# or, from ModelScope: modelscope download StartLuxAI/StartLux-Decision-4B --local-dir StartLux-Decision-v1-4B
+# or, from ModelScope: modelscope download StartLuxAI/StartLux-Decision-v1-4B --local-dir StartLux-Decision-v1-4B
 pip install -r requirements.txt
 python -m startlux_decision.check StartLux-Decision-v1-4B          # must print "fast kernels: active" (on a Mac: MLX)
 python -m startlux_decision.server --model StartLux-Decision-v1-4B --port 8090
