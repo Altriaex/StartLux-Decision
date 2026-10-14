@@ -90,7 +90,30 @@ unsure it writes a thought and reads the answer a second time, and the thought t
 To try a model without a GPU, use [bamboonode.dev](https://bamboonode.dev/). It hosts the 27B AutoThink model with the
 same request format (`POST /v1/decisions`), free and without usage limits, and needs only a Bamboo API key.
 
-To run the models yourself, install the package into the same Python environment as vLLM. It carries the vLLM plugin
+### StartLux-Prism
+
+To run the quantized GGUF releases, the best and fastest way is
+[StartLux-Prism](https://github.com/StartLuxLabs/StartLux-Prism), our dedicated inference engine for NVIDIA GPUs. It
+runs a Q8_0 file on int8 tensor cores and a Q4_K_M file on its own 4-bit weights, with this package's prompts,
+read-outs and thoughts, behind the same `/v1/systemone` API:
+
+- **Against llama.cpp on the same GGUF files** (StartLux-Decision v1, one request at a time): 7.5 to 14 times faster
+  on Q8_0 and 3.9 to 6.9 times on Q4_K_M.
+- **Against vLLM on the full release** (v1.1 27B AutoThink, one H200): a short question in 19 ms instead of 53 ms in
+  FP8, and 1.17x the requests per second from 64 clients.
+
+```bash
+git clone https://github.com/StartLuxLabs/StartLux-Prism.git
+cd StartLux-Prism
+M=models/StartLux-Decision-v1.1-27B-AutoThink-GGUF
+hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink-GGUF StartLux-Decision-v1.1-27B-AutoThink-Q8_0.gguf --local-dir $M
+hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink --exclude "*.safetensors" --local-dir $M   # tokenizer and config
+python -m startlux_prism.server --gguf $M/StartLux-Decision-v1.1-27B-AutoThink-Q8_0.gguf --model-dir $M --port 8090
+```
+
+### vLLM
+
+To run the models with this package, install it into the same Python environment as vLLM. It carries the vLLM plugin
 that Instant models need.
 
 ```bash
@@ -106,7 +129,9 @@ hf download startlux-models/StartLux-Decision-v1.1-4B-AutoThink --local-dir mode
 startlux-decide serve --model models/StartLux-Decision-v1.1-4B-AutoThink --launch-vllm --gpus 0,1,2,3 --port 8090
 ```
 
-Ask a question:
+### Ask a question
+
+Either server answers on port 8090:
 
 ```bash
 curl -s localhost:8090/v1/systemone -H 'Content-Type: application/json' -d '{
@@ -171,6 +196,7 @@ format, the confidence definitions, the details fields and the errors.
 |---|---|---|---|---|
 | vLLM (default) | yes, with the plugin in this package | yes | vLLM 0.31 | serving, and the published numbers |
 | llama.cpp | yes, GGUF builds marked non-causal | yes | with the `mmproj` file | machines without vLLM |
+| [StartLux-Prism](https://github.com/StartLuxLabs/StartLux-Prism) | no | yes, from the Q8_0 GGUF | with the `mmproj` file | the GGUF releases on NVIDIA GPUs, fastest |
 | MLX | yes, mlx-vlm builds | yes | yes | Apple Silicon |
 | transformers | yes | yes | yes | reference checks |
 
