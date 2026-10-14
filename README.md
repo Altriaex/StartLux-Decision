@@ -28,6 +28,8 @@ reaches a gate, 0.6 by default, and otherwise generate a short reasoning trace a
 This repository contains the inference engine and HTTP server for both variants. The API is compatible with System
 One `/v1/systemone`.
 
+<p align="center"><img src="docs/assets/score_vs_size.png" width="860" alt="Decision Index 0.3 public score against model size"></p>
+
 ## Demos
 
 <table align="center">
@@ -52,8 +54,6 @@ harnesses for computer use and chess are in [v1/demos](v1/demos).
 ## Release notes
 
 - 2026-10: the technical report is on arXiv as [2610.17309](https://arxiv.org/abs/2610.17309).
-
-<p align="center"><img src="docs/assets/score_vs_size.png" width="860" alt="Decision Index 0.3 public score against model size"></p>
 
 ## Models
 
