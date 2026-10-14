@@ -7,7 +7,7 @@
   <a href="https://huggingface.co/startlux-models">Hugging Face</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="https://arxiv.org/abs/2610.17309">Technical report</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="https://decision.startlux.com/">Blog</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="docs/README.md">Documentation</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="https://github.com/StartLuxLabs/StartLux-Prism">StartLux-Prism</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="docs/api.md">API reference</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="https://bamboonode.dev/">Free unlimited use</a>
 </p>
