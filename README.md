@@ -28,8 +28,6 @@ reaches a gate, 0.6 by default, and otherwise generate a short reasoning trace a
 This repository contains the inference engine and HTTP server for both variants. The API is compatible with System
 One `/v1/systemone`.
 
-<p align="center"><img src="docs/assets/autothink.gif" width="640" alt="An AutoThink model reads the question once, finds its top option below the 0.6 gate, writes a short thought and reads the options again"></p>
-
 ## Demos
 
 <table align="center">
