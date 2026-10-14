@@ -1,0 +1,178 @@
+diff --git a/tools/server/server-context.cpp b/tools/server/server-context.cpp
+index 9a9c0c9..f4bcda2 100644
+--- a/tools/server/server-context.cpp
++++ b/tools/server/server-context.cpp
+@@ -159,6 +159,9 @@ struct server_batch {
+     float  alora_scale       = -1.0f;
+     size_t alora_disabled_id = 0;
+ 
++    // the batch holds the bidirectional part of one prompt and nothing else (see task_params::n_prompt_bidir)
++    bool bidir = false;
++
+     void init(llama_context * ctx, int32_t n_tokens_alloc, int32_t n_embd) {
+         this->n_tokens_alloc = n_tokens_alloc;
+         this->n_embd = n_embd;
+@@ -196,6 +199,7 @@ struct server_batch {
+         slot_batched      = nullptr;
+         alora_scale       = -1.0f;
+         alora_disabled_id = 0;
++        bidir             = false;
+     }
+ 
+     int32_t size() const {
+@@ -3489,10 +3493,34 @@ private:
+                     return;
+                 }
+ 
++                // bidirectional prompts: the first n_bidir tokens of the prompt are read with bidirectional attention.
++                // they must be evaluated alone and in one piece: a batch with tokens of several sequences is cut into
++                // equal-length pieces per sequence for recurrent/hybrid memory (split_equal), and any split would cut
++                // the bidirectional attention. so they start only in an empty batch, and the batch is closed after them
++                const bool has_prompt = slot.state == SLOT_STATE_PROCESSING_PROMPT || slot.state == SLOT_STATE_STARTED;
++                int32_t n_bidir = 0;
++                if (has_prompt && !slot.need_embd()) {
++                    const int32_t n_req = llama_get_causal_attn(ctx_tgt) ? slot.task->params.n_prompt_bidir : -1;
++                    n_bidir = n_req < 0 ? slot.task->n_tokens() : std::min(n_req, slot.task->n_tokens());
++                }
++                const bool bidir_now = n_bidir > 0 && (slot.state == SLOT_STATE_STARTED || slot.prompt.n_tokens() < n_bidir);
++                if (bidir_now && batch.size() > 0) {
++                    return; // wait for an empty batch
++                }
++
+                 // this slot still has a prompt to be processed
+-                if (slot.state == SLOT_STATE_PROCESSING_PROMPT || slot.state == SLOT_STATE_STARTED) {
++                if (has_prompt) {
+                     const auto & input_tokens = slot.task->tokens;
+ 
++                    if (bidir_now && n_bidir > n_ubatch) {
++                        send_error(slot,
++                                   string_format("the bidirectional part of the input (%d tokens) must be evaluated in one physical "
++                                                 "batch. increase the physical batch size (current batch size: %d)", n_bidir, n_ubatch),
++                                   ERROR_TYPE_SERVER);
++                        slot.release();
++                        return;
++                    }
++
+                     // used to determine the number of tokens added to the batch for the current slot
+                     const auto n_tokens_prev = batch.size();
+ 
+@@ -3586,7 +3614,8 @@ private:
+ 
+                             const bool is_stateless_task = slot.task->type == SERVER_TASK_TYPE_EMBEDDING || slot.task->type == SERVER_TASK_TYPE_RERANK;
+ 
+-                            if (slot.task->params.cache_prompt && !is_stateless_task) {
++                            // the cached states of a bidirectional prefix depend on the tokens that followed it: no reuse
++                            if (slot.task->params.cache_prompt && !is_stateless_task && n_bidir == 0) {
+                                 // reuse any previously computed tokens that are common with the new prompt
+                                 n_past = slot.prompt.tokens.get_common_prefix(input_tokens);
+ 
+@@ -3867,6 +3896,9 @@ private:
+                     // make checkpoints only for completion tasks
+                     do_checkpoint = do_checkpoint && slot.task->type == SERVER_TASK_TYPE_COMPLETION;
+ 
++                    // a checkpoint would split the bidirectional part of the prompt
++                    do_checkpoint = do_checkpoint && !bidir_now;
++
+                     // make a checkpoint of the parts of the memory that cannot be rolled back.
+                     // checkpoints are created only if:
+                     // - the model does not support partial sequence removal
+@@ -3936,6 +3968,11 @@ private:
+ 
+                     // add prompt tokens for processing in the current batch
+                     while (slot.prompt.n_tokens() < slot.task->n_tokens() && batch.size() < n_batch) {
++                        // the bidirectional part goes alone into this batch
++                        if (bidir_now && slot.prompt.n_tokens() >= n_bidir) {
++                            break;
++                        }
++
+                         // get next token to process
+                         llama_token cur_tok = input_tokens[slot.prompt.n_tokens()];
+                         if (cur_tok == LLAMA_TOKEN_NULL) {
+@@ -4065,6 +4102,12 @@ private:
+                 if (!slot_batched) {
+                     slot_batched = &slot;
+                 }
++
++                // nothing else goes into a batch that holds the bidirectional part of a prompt
++                if (bidir_now && batch.size() > 0) {
++                    batch.bidir = true;
++                    add_ok      = false;
++                }
+             });
+         }
+     }
+@@ -4162,6 +4205,12 @@ private:
+ 
+         // yield to the queue, so we can still handle metrics tasks while decoding
+         // note: the sync is done here too, so that the wait is also covered by the yield
++        // a batch with the bidirectional part of a prompt is evaluated with non-causal attention
++        const bool causal_ctx = llama_get_causal_attn(ctx_tgt);
++        if (batch.bidir) {
++            llama_set_causal_attn(ctx_tgt, false);
++        }
++
+         int ret = 0;
+         queue_tasks.yield_to_queue([&]() {
+             ret = llama_process(ctx_tgt, LLAMA_PROCESS_TYPE_DECODE, batch.view.get());
+@@ -4170,10 +4219,19 @@ private:
+             }
+         });
+ 
++        if (batch.bidir) {
++            llama_set_causal_attn(ctx_tgt, causal_ctx);
++        }
++
+         if (ret != 0) {
+             {
+                 std::string err;
+ 
++                if (batch.bidir && ret == 1) {
++                    // a smaller batch would split the bidirectional part
++                    err = "No room in the context for the bidirectional part of the prompt.";
++                }
++
+                 if (n_batch == 1 && ret == 1) {
+                     // TODO: try to terminate only the largest active slot/sequence and continue with the rest
+                     //       need to remove the tokens from the current batch too
+diff --git a/tools/server/server-schema.cpp b/tools/server/server-schema.cpp
+index 54e126a..88f05b8 100644
+--- a/tools/server/server-schema.cpp
++++ b/tools/server/server-schema.cpp
+@@ -64,6 +64,10 @@ std::vector<std::unique_ptr<field>> make_llama_cmpl_schema(const common_params &
+         ->add_alias("n") // alias "n" as fallback (OpenAI completions API)
+         ->set_desc("Number of completions to generate. If the input has multiple prompts, total outputs will be N prompts times n_cmpl"));
+ 
++    add((new field_num("prompt_bidirectional", params.n_prompt_bidir))
++        ->set_hard_limits(-1, INT32_MAX)
++        ->set_desc("Number of leading prompt tokens read with bidirectional attention, for models trained so (0 = none, -1 = the whole prompt). They are evaluated in one physical batch of their own, without prompt cache reuse; the rest of the prompt and the generated tokens stay causal"));
++
+     add((new field_num("n_cache_reuse", params.n_cache_reuse))
+         ->set_hard_limits(0, INT32_MAX)
+         ->set_desc("Min chunk size to attempt reusing from the cache via KV shifting. See --cache-reuse arg"));
+diff --git a/tools/server/server-task.cpp b/tools/server/server-task.cpp
+index 3f30da2..41d475b 100644
+--- a/tools/server/server-task.cpp
++++ b/tools/server/server-task.cpp
+@@ -140,6 +140,7 @@ json task_params::to_json(bool only_metrics) const {
+         {"speculative.types",         common_speculative_type_name_str(speculative.types)},
+         {"timings_per_token",         timings_per_token},
+         {"post_sampling_probs",       post_sampling_probs},
++        {"prompt_bidirectional",      n_prompt_bidir},
+         {"backend_sampling",          sampling.backend_sampling},
+         {"lora",                      lora},
+     };
+diff --git a/tools/server/server-task.h b/tools/server/server-task.h
+index b8d6a3b..1f61ac3 100644
+--- a/tools/server/server-task.h
++++ b/tools/server/server-task.h
+@@ -65,6 +65,10 @@ struct task_params {
+ 
+     int32_t n_cache_reuse = 0; // min chunk size to attempt reusing from the cache via KV shifting (0 = disabled)
+ 
++    // leading prompt tokens read with bidirectional attention in the attention layers (0 = none, -1 = the whole prompt)
++    // the tokens after them stay causal. a context that is non-causal reads every prompt bidirectionally
++    int32_t n_prompt_bidir = 0;
++
+     int64_t t_max_prompt_ms  = -1; // TODO: implement
+     int64_t t_max_predict_ms = -1; // if positive, limit the generation phase to this time limit
+ 

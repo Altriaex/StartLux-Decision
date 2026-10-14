@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use StartLux-Decision, please cite the technical report."
+title: "StartLux-Decision inference engine"
+repository-code: "https://github.com/StartLuxLabs/StartLux-Decision"
+license: Apache-2.0
+authors:
+  - given-names: Xialie
+    family-names: Zhuang
+  - given-names: Zunhai
+    family-names: Su
+  - given-names: Jia
+    family-names: Pan
+  - given-names: Ngai
+    family-names: Wong
+  - given-names: Guanhua
+    family-names: Chen
+  - given-names: Chuan-Wei
+    family-names: Kuo
+preferred-citation:
+  type: article
+  title: "StartLux-Decision: AutoThink Decision Models with Reinforcement Learning for Calibrated Deliberative Decisions"
+  journal: "arXiv preprint arXiv:2610.17309"
+  url: "https://arxiv.org/abs/2610.17309"
+  year: 2026
+  authors:
+    - given-names: Xialie
+      family-names: Zhuang
+    - given-names: Zunhai
+      family-names: Su
+    - given-names: Jia
+      family-names: Pan
+    - given-names: Ngai
+      family-names: Wong
+    - given-names: Guanhua
+      family-names: Chen
+    - given-names: Chuan-Wei
+      family-names: Kuo

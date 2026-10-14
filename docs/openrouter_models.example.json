@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "id": "startlux/startlux-decision-27b-autothink",
+      "name": "StartLux: StartLux-Decision 27B AutoThink",
+      "created": 1791676800,
+      "description": "Typed decisions with a probability for every option: pick one of several options, yes or no, or a level on a scale. Reads the answer in one pass and writes a short thought when it is unsure. Requests and responses use the TypeSafe /v1/systemone format.",
+      "schema_version": "2.4",
+      "input_modalities": [{"type": "text"}],
+      "output_modalities": [{"type": "decisions"}],
+      "quantization": "bf16",
+      "datacenters": [{"country_code": "CN"}],
+      "is_free": true,
+      "capacity": [
+        {"type": "rate", "unit": "requests", "per": "minute", "value": 600},
+        {"type": "concurrency", "value": 32}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+llama-server (b11549): a completion prompt with images on a non-causal context goes whole into one batch.
+
+A prompt-bidirectional (Instant) model must read the text and the image embeddings of a prompt together in one
+micro-batch. The server does that (add_prompt_mixed) only for embedding tasks; a completion with images was decoded as
+text before the image, the image, and the text after it (three micro-batches), which cuts the bidirectional attention.
+The patch makes such a prompt non-splittable: it is evaluated whole in one batch, and a prompt longer than -ub is
+refused (never cut). /props reports mtmd_prompt_whole_when_non_causal so that clients can tell. Causal contexts and
+prompts without images are unchanged. Apply with: patch -p1 < 0003-... (applies to stock b11549 and on top of 0001).
+
+diff --git a/tools/server/server-context.cpp b/tools/server/server-context.cpp
+--- a/tools/server/server-context.cpp
++++ b/tools/server/server-context.cpp
+@@ -446,6 +446,11 @@
+ 
+     bool can_split() const {
+         GGML_ASSERT(task);
++        // a prompt with images on a non-causal context is read whole: its text tokens and its image embeddings go into
++        // one batch (add_prompt_mixed), so that every prompt token attends to every other (prompt-bidirectional models)
++        if (task->tokens.has_mtmd && !llama_get_causal_attn(ctx_tgt)) {
++            return false;
++        }
+         // MTP supports splitting - uses task->need_embd() not need_embd()
+         if (!task->need_embd()) {
+             return true;
+@@ -5130,6 +5135,7 @@
+             {"audio",  meta.has_inp_audio},
+         } },
+         { "media_marker",                get_media_marker() },
++        { "mtmd_prompt_whole_when_non_causal", true },
+         { "endpoint_slots",              params.endpoint_slots },
+         { "endpoint_props",              params.endpoint_props },
+         { "endpoint_metrics",            params.endpoint_metrics },
