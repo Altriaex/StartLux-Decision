@@ -54,6 +54,8 @@ harnesses for computer use and chess are in [v1/demos](v1/demos).
 ## Release notes
 
 - 2026-10: the technical report is on arXiv as [2610.17309](https://arxiv.org/abs/2610.17309).
+- 2026-10: [StartLux-Prism](https://github.com/StartLuxLabs/StartLux-Prism), our dedicated inference engine: a fast CUDA
+  engine that serves StartLux-Decision models straight from their GGUF files, on one GPU or several.
 
 ## Models
 
