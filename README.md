@@ -90,7 +90,7 @@ unsure it writes a thought and reads the answer a second time, and the thought t
 To try a model without a GPU, use [bamboonode.dev](https://bamboonode.dev/). It hosts the 27B AutoThink model with the
 same request format (`POST /v1/decisions`), free and without usage limits, and needs only a Bamboo API key.
 
-### StartLux-Prism: the GGUF releases
+### StartLux-Prism
 
 To run the quantized GGUF releases, the best and fastest way is
 [StartLux-Prism](https://github.com/StartLuxLabs/StartLux-Prism), our dedicated inference engine for NVIDIA GPUs. It
@@ -102,9 +102,6 @@ read-outs and thoughts, behind the same `/v1/systemone` API:
 - **Against vLLM on the full release** (v1.1 27B AutoThink, one H200): a short question in 19 ms instead of 53 ms in
   FP8, and 1.17x the requests per second from 64 clients.
 
-The AutoThink models think with their Q8_0 files; on a Q4_K_M file StartLux-Prism answers in one pass. It needs Linux,
-an RTX 5090 or a Hopper GPU, Python 3.12, PyTorch for CUDA 13 with Triton, and a CUDA toolkit.
-
 ```bash
 git clone https://github.com/StartLuxLabs/StartLux-Prism.git
 cd StartLux-Prism
@@ -113,11 +110,6 @@ hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink-GGUF StartLux-D
 hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink --exclude "*.safetensors" --local-dir $M   # tokenizer and config
 python -m startlux_prism.server --gguf $M/StartLux-Decision-v1.1-27B-AutoThink-Q8_0.gguf --model-dir $M --port 8090
 ```
-
-The first start builds the CUDA kernels and calibrates the int8 activations once. The 27B's Q8_0 file needs a Hopper
-GPU; the 9B AutoThink fits an RTX 5090. On several GPUs, `python -m startlux_prism.dp --gpus 0,1,2,3` runs one server
-per GPU behind a router, and `--tp 2` splits one model over two GPUs. Instant models read the prompt bidirectionally
-and run on vLLM, below.
 
 ### vLLM
 
