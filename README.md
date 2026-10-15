@@ -7,8 +7,7 @@
   <a href="https://huggingface.co/startlux-models">Hugging Face</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="https://arxiv.org/abs/2610.17309">Technical report</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="https://decision.startlux.com/">Blog</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="docs/api.md">API reference</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://bamboonode.dev/">Free unlimited use</a>
+  <a href="docs/api.md">API reference</a>
 </p>
 
 <p align="center">
@@ -84,10 +83,7 @@ unsure it writes a thought and reads the answer a second time, and the thought t
 
 ## Quick start
 
-To try a model without a GPU, use [bamboonode.dev](https://bamboonode.dev/). It hosts the 27B AutoThink model with the
-same request format (`POST /v1/decisions`), free and without usage limits, and needs only a Bamboo API key.
-
-To run the models yourself, install the package into the same Python environment as vLLM. It carries the vLLM plugin
+To run the models, install the package into the same Python environment as vLLM. It carries the vLLM plugin
 that Instant models need.
 
 ```bash
