@@ -105,6 +105,9 @@ read-outs and thoughts, behind the same `/v1/systemone` API:
 ```bash
 git clone https://github.com/StartLuxLabs/StartLux-Prism.git
 cd StartLux-Prism
+python3.12 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt     # PyTorch 2.14.1 for CUDA 13, Triton, nvcc 13.0
+source scripts/cuda_env.sh          # nvcc from pip as CUDA_HOME (in every new shell)
 M=models/StartLux-Decision-v1.1-27B-AutoThink-GGUF
 hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink-GGUF StartLux-Decision-v1.1-27B-AutoThink-Q8_0.gguf --local-dir $M
 hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink --exclude "*.safetensors" --local-dir $M   # tokenizer and config
