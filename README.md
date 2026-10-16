@@ -33,7 +33,7 @@ One `/v1/systemone`.
 
 <table align="center">
   <tr>
-    <td width="50%" align="center"><a href="v1/media/computer_use_store_27b.mp4"><img src="v1/media/computer_use_store_27b.gif" alt="Ordering batteries in a web store"></a><br><sub>Computer use: finds the cheapest AA 8-pack with free delivery and orders it to the right address</sub></td>
+    <td width="50%" align="center"><a href="v1/media/rescue_harvey_27b.mp4"><img src="v1/media/rescue_harvey_27b.gif" alt="Coast Guard helicopter rescue"></a><br><sub>Helicopter rescue: calls each stage of a Coast Guard hoist rescue in Hurricane Harvey, one frame a second</sub></td>
     <td width="50%" align="center"><a href="v1/media/chess_27b_scotch_vs_jev.mp4"><img src="v1/media/chess_27b_scotch_vs_jev.gif" alt="Chess against Jev 1.13"></a><br><sub>Chess: with White, checkmates Jev 1.13 on move 19 of a Scotch Game, and neither side searches</sub></td>
   </tr>
   <tr>
@@ -41,14 +41,17 @@ One `/v1/systemone`.
     <td width="50%" align="center"><a href="v1/media/sc2_hard_27b.mp4"><img src="v1/media/sc2_hard_27b.gif" alt="StarCraft II"></a><br><sub>StarCraft II: makes the strategic calls for a Terran bot and beats the built-in Hard AI</sub></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><a href="v1/media/doom_deathmatch_27b.mp4"><img src="v1/media/doom_deathmatch_27b.gif" alt="Doom"></a><br><sub>Doom: plays a deathmatch against four built-in bots</sub></td>
+    <td width="50%" align="center"><a href="v1/media/launch_artemis_27b.mp4"><img src="v1/media/launch_artemis_27b.gif" alt="Artemis I launch"></a><br><sub>Rocket launch: follows the Artemis I night launch one frame a second, calls liftoff and tells the camera when to tilt up</sub></td>
     <td width="50%" align="center"><a href="v1/media/jevball_27b.mp4"><img src="v1/media/jevball_27b.gif" alt="JevBall"></a><br><sub>JevBall: makes the decisions for a football team in real time</sub></td>
   </tr>
 </table>
 
-Every step of these runs is one request with typed questions, answered by StartLux-Decision-v1-27B, the first release,
-in one pass. Click a preview for the video. [v1/README.md](v1/README.md#demos) describes each harness, and the
-harnesses for computer use and chess are in [v1/demos](v1/demos).
+In the chess and game runs, every step is one request with typed questions, answered by StartLux-Decision-v1-27B, the
+first release, in one pass. The rescue and launch videos send one frame a second with nine questions to the 27B
+AutoThink model on [bamboonode.dev](https://bamboonode.dev/), which thinks only when its top probability is below the
+0.6 gate. Their footage is from the U.S. Coast Guard and NASA (public domain, no endorsement implied), and the faces of
+the people being rescued are blurred. Click a preview for the video. [v1/README.md](v1/README.md#demos) describes each
+harness, and the harnesses for computer use and chess are in [v1/demos](v1/demos).
 
 ## Release notes
 
