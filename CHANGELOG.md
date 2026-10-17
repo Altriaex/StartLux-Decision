@@ -18,3 +18,6 @@ models.
 - Images in the evidence and prompts up to 262,144 tokens.
 - Production serving: API keys, TLS, early 429 responses, an access log and an optional request log.
 - Tools: `launch-vllm`, `bench`, `eval` and `quantize` (FP8, GGUF and MLX builds).
+- Choice options given as a list, or under `options`, are knocked out like `{option: description}`. Before, a list of
+  more than 26 options, or of 26 when the extra "None of the above" option was added (`none_check` is on by default),
+  was refused with a 422.

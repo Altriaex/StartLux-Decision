@@ -4,7 +4,8 @@ thought, and many requests can be in flight at once.
 One question:
 
 1. Choice lists over 26 options are first knocked out: near-equal groups of at most 25 options are read in one pass
-   each, the 3 best of every group go to the final round (the 26 best overall when more qualify).
+   each, the 3 best of every group go to the final round (the 26 best overall when more qualify). This holds for
+   every form of a choice list: {option: description}, a list of options, or either under "options".
 2. First read-out: the one-pass prompt (thinking off), letter probabilities at the type's temperature.
 3. Gate (AutoThink): think when think_mode is "always", or "auto" and the top probability is below the gate, and the
    context has room. The thought starts with the forced prefix and is generated in one of two ways
@@ -67,6 +68,15 @@ def default_controls(folder: ModelFolder, **overrides: Any) -> Controls:
     auto = folder.auto_think or AutoThink(think_mode="never")
     base = Controls(think_mode=auto.think_mode, gate=auto.gate, budget=auto.budget, mix=auto.mix)
     return replace(base, **{k: v for k, v in overrides.items() if v is not None})
+
+
+def choice_criteria(spec: dict) -> Any:
+    """The options of a choice question in the form the knock-out works on, {id: description}: "criteria" (or
+    "options"), a list of options read as from_systemone reads it ({str(option): None}). Anything else as it is."""
+    crit = spec.get("criteria", spec.get("options"))
+    if isinstance(crit, (list, tuple)):
+        return {str(c): None for c in crit}
+    return crit
 
 
 @dataclass
@@ -208,9 +218,11 @@ class Decider:
         return out
 
     def _prepare_one(self, state: Any, key: str, spec: dict, req: _Request, allow_none: bool = False) -> _Question:
-        crit = spec.get("criteria")
         none = allow_none and spec.get("type", "choice") == "choice"
-        if spec.get("type", "choice") == "choice" and isinstance(crit, dict):
+        crit = choice_criteria(spec) if spec.get("type", "choice") == "choice" else None
+        if isinstance(crit, dict):
+            if crit is not spec.get("criteria"):        # a list of options, or the "options" key: read as a dict
+                spec = dict(spec, criteria=crit)
             if len(crit) == 1 and not none:
                 return _Question(key, spec, only=next(iter(crit)))
             if len(crit) > MAX_OPTIONS - none:      # the extra option needs a letter of the final round
