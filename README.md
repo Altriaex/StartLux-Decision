@@ -55,6 +55,10 @@ harness, and the harnesses for computer use and chess are in [v1/demos](v1/demos
 
 ## Release notes
 
+- 2026-10-16: StartLux-Decision v1.1 27B Instant ranks first of 174 entries on the
+  [Decision Index 0.3.2](https://huggingface.co/spaces/multimodalart/jev-decision-index) leaderboard on Hugging Face,
+  with a Full score of 69.12. It is also first on each of the three parts: the public benchmarks (72.88), the private
+  tests of the same skills (64.82) and the private tasks from new domains (61.41).
 - 2026-10: the technical report is on arXiv as [2610.17309](https://arxiv.org/abs/2610.17309).
 
 ## Models
