@@ -34,7 +34,7 @@ Issues = "https://github.com/StartLuxLabs/StartLux-Decision/issues"
 Models = "https://huggingface.co/startlux-models"
 
 [project.optional-dependencies]
-vllm = ["vllm==0.19.1"]                              # the release runs; the vLLM plugin is validated on 0.19.1 and 0.31.0
+vllm = ["vllm==0.31.0"]                              # the vLLM plugin is validated on 0.31.0 and on 0.19.1 (the release runs)
 transformers = ["torch>=2.4", "transformers>=5.8,<5.9"]  # the bidirectional read-out reproduces transformers 5.8
 llamacpp = []                                        # llama-server is a separate program (llama.cpp)
 mlx = ["mlx-vlm>=0.7.6"]                              # the MLX engine; brings mlx

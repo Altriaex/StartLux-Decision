@@ -100,7 +100,7 @@ that Instant models need.
 ```bash
 git clone https://github.com/StartLuxLabs/StartLux-Decision.git
 cd StartLux-Decision
-pip install -e '.[vllm]'          # vLLM 0.19.1, the version of the published numbers; vLLM 0.31 is also supported
+pip install -e '.[vllm]'          # vLLM 0.31.0; the published numbers were measured on 0.19.1, which is also supported
 ```
 
 Download a model and start one vLLM server per GPU with the decision server in front of them:
