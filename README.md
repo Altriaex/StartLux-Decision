@@ -94,6 +94,35 @@ unsure it writes a thought and reads the answer a second time, and the thought t
 To try a model without a GPU, use [bamboonode.dev](https://bamboonode.dev/). It hosts the 27B AutoThink model with the
 same request format (`POST /v1/decisions`), free and without usage limits, and needs only a Bamboo API key.
 
+On NVIDIA GPUs, [StartLux-Prism](https://github.com/StartLuxLabs/StartLux-Prism) is our inference engine written for
+these models. It serves v1 and v1.1 AutoThink (4B, 9B and 27B) straight from the released GGUF files, behind the same
+`/v1/systemone` API; v1.1 Instant models are not supported yet. Install it on Linux with Python 3.12 and a CUDA 13
+driver:
+
+```bash
+git clone https://github.com/StartLuxLabs/StartLux-Prism.git
+cd StartLux-Prism
+python3.12 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt     # PyTorch 2.14.1 for CUDA 13, Triton, nvcc 13.0
+source scripts/cuda_env.sh          # nvcc from pip as CUDA_HOME (in every new shell)
+```
+
+Download a GGUF file with its release's tokenizer and config, and start the server:
+
+```bash
+M=~/models/StartLux-Decision-v1.1-27B-AutoThink-GGUF
+hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink-GGUF \
+  StartLux-Decision-v1.1-27B-AutoThink-Q8_0.gguf --local-dir $M
+hf download startlux-models/StartLux-Decision-v1.1-27B-AutoThink --exclude "*.safetensors" --local-dir $M
+python -m startlux_prism.server --gguf $M/StartLux-Decision-v1.1-27B-AutoThink-Q8_0.gguf --model-dir $M --port 8090
+```
+
+The server is ready when it prints `Ready`; the first start compiles its CUDA kernels and measures the int8 activation
+ranges once. It answers the request below as it is. `allow_none` is on by default for v1.1 models (`--allow-none off`
+matches this package), and the server has no API keys or TLS, so keep it behind your own access control.
+[StartLux-Prism's README](https://github.com/StartLuxLabs/StartLux-Prism#readme) covers CUDA 12 drivers, several GPUs
+and every flag.
+
 To run the models yourself, install the package into the same Python environment as vLLM. It carries the vLLM plugin
 that Instant models need.
 
@@ -174,6 +203,7 @@ format, the confidence definitions, the details fields and the errors.
 | Engine | Instant | AutoThink | Images | Typical use |
 |---|---|---|---|---|
 | vLLM (default) | yes, with the plugin in this package | yes | vLLM 0.31 | serving, and the published numbers |
+| [StartLux-Prism](https://github.com/StartLuxLabs/StartLux-Prism) | not yet | yes, 4B, 9B and 27B | with the `mmproj` file | the GGUF files on NVIDIA GPUs, lowest latency |
 | llama.cpp | yes, GGUF builds marked non-causal | yes | with the `mmproj` file | machines without vLLM |
 | MLX | yes, mlx-vlm builds | yes | yes | Apple Silicon |
 | transformers | yes | yes | yes | reference checks |
