@@ -1,7 +1,7 @@
 """HTTP server with the TypeSafe /v1/systemone API (aiohttp, asynchronous: many requests in flight, every question
 runs its own pipeline).
 
-    POST /v1/systemone   {"state", "questions", optional "images" and controls (see controls.py)}
+    POST /v1/systemone   {"state", "questions", optional "images" or "video" and controls (see controls.py)}
                          -> {"answers", "usage", "model"} (+ "timing_ms" with return_details)
     POST /v1/decisions   the same (OpenRouter's name for this API); a "model" field in the request is ignored
     GET  /v1/models      {"models": [{"name", "description", "release_date"}]}
@@ -22,6 +22,7 @@ keys or request content; request content goes only to the request log.
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import re
@@ -35,6 +36,7 @@ from aiohttp import web
 
 from .backends.base import Backend, BackendError
 from .controls import Controls, RequestError
+from .images import video_images
 from .modelcfg import ModelFolder
 from .pipeline import Decider
 from .serving import DECISION_PATHS, OPEN_PATHS, RequestLog, ServeOptions, client_address, key_id, utc_now
@@ -192,7 +194,17 @@ async def decisions(request: web.Request) -> web.Response:
     try:
         controls = decider.controls(body)
         run = replace(controls, details=True, thought_text=True) if keep else controls   # the log keeps thoughts
-        decision = await decider.decide(body.get("state"), questions, run, images=body.get("images"))
+        images = body.get("images")
+        if "video" in body:
+            if images is not None:
+                raise RequestError("send either images or video", ("body", "video"))
+            try:
+                images = await asyncio.to_thread(video_images, body["video"])
+            except (ValueError, RuntimeError) as e:
+                raise RequestError(str(e), ("body", "video")) from None
+        decision = await decider.decide(
+            body.get("state"), questions, run, images=images
+        )
     except RequestError as e:
         return error(422, str(e), e.loc)
     except BackendError as e:

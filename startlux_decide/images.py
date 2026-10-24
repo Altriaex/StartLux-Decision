@@ -77,6 +77,40 @@ def decode(value: Any) -> tuple[bytes, str]:
         raise ValueError("an image must be a base64 string or a data URI") from None
 
 
+def video_images(value: str) -> list[str]:
+    """A base64 video data URI -> PNG frames, sampled at 2 fps with 4 to 8 frames (fewer for shorter videos).
+
+    Video decoding needs the optional TorchCodec, Transformers video processor and Pillow dependencies.
+    Imports stay local so image and text requests do not load the video stack.
+    """
+    if not isinstance(value, str) or not re.match(
+        r"^data:video/[\w.+-]+;base64,", value
+    ):
+        raise ValueError("video must be a base64 video data URI")
+    from PIL import Image
+    from transformers.models.qwen3_vl.video_processing_qwen3_vl import (
+        Qwen3VLVideoProcessor,
+    )
+    from transformers.video_utils import read_video_torchcodec
+
+    # Sample in temporal order without loading a checkpoint or changing the frame pixels.
+    processor = Qwen3VLVideoProcessor(fps=2, min_frames=4, max_frames=8)
+    frames, _ = read_video_torchcodec(
+        io.BytesIO(base64.b64decode(value.split(",", 1)[1], validate=True)),
+        processor.sample_frames,
+    )
+    images = []
+    for frame in frames:
+        # TorchCodec frames are [C, H, W]; Pillow consumes [H, W, C].
+        buffer = io.BytesIO()
+        Image.fromarray(frame.permute(1, 2, 0).cpu().numpy()).save(buffer, format="PNG")
+        images.append(
+            "data:image/png;base64,"
+            + base64.b64encode(buffer.getvalue()).decode("ascii")
+        )
+    return images
+
+
 @dataclass
 class Media:
     """The images of one request: the encoded bytes as sent, the decoded RGB images (PIL), their sizes after the
