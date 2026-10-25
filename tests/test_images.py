@@ -55,7 +55,7 @@ class PlacesAndSizesTest(unittest.TestCase):
         self.assertEqual(place_images(f"before {IMAGE_MARK} after", 1), f"before {SLOT} after")
         self.assertEqual(place_images(f"{IMAGE_MARK}{IMAGE_MARK}", 2), SLOT + SLOT)
         self.assertEqual(place_images("the parcel", 1), f"{SLOT}\n\nthe parcel")
-        self.assertEqual(place_images("the parcel", 2), f"Image 1: {SLOT}\nImage 2: {SLOT}\n\nthe parcel")
+        self.assertEqual(place_images("the parcel", 2), f"{SLOT}\n{SLOT}\n\nthe parcel")
         self.assertEqual(place_images("", 1), SLOT)
         self.assertEqual(place_images('{"photo": "<image>", "id": 7}', 1), '{"photo": "' + SLOT + '", "id": 7}')
         with self.assertRaisesRegex(ValueError, "2 <image> marks for 1 images"):

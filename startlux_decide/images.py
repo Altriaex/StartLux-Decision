@@ -3,7 +3,7 @@ marks in the state that say where each image goes.
 
 * ``place_images(state, n)``: the state as text with the place of every image. A string state (or the text of a JSON
   state) with exactly n "<image>" marks gets an image at each mark, in order; without marks the images come first
-  (one image alone, several as "Image 1: ...", "Image 2: ..." on their own lines), then a blank line and the state.
+  (one image per line, without labels), then a blank line and the state.
 * ``Media``: the decoded images of one request. Each image is resized by the engine's image processor so that both
   sides are multiples of 32 pixels (16-pixel patches, 2 x 2 merged) and it has between `min_pixels` (65,536) and
   `max_pixels` (1,048,576) pixels, keeping its aspect ratio (``smart_resize``, the rule of the processor); it then
@@ -41,7 +41,7 @@ def place_images(text: str, n: int) -> str:
         return text.replace(IMAGE_MARK, SLOT)
     if marks:
         raise ValueError(f"the state has {marks} {IMAGE_MARK} marks for {n} images")
-    head = SLOT if n == 1 else "\n".join(f"Image {k + 1}: {SLOT}" for k in range(n))
+    head = "\n".join([SLOT] * n)
     return head + ("\n\n" + text if text.strip() else "")
 
 
